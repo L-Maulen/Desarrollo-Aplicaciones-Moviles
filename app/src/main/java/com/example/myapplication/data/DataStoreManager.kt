@@ -24,7 +24,7 @@ class DataStoreManager(private val context: Context){
     suspend fun saveUsers(users: List<Usuario>){
         val json = gson.toJson(users)
         context.dataStore.edit { prefs ->
-            prefs[USERS_KEY]
+            prefs[USERS_KEY] = json
         }
     }
 

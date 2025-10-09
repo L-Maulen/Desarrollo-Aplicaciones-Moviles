@@ -18,6 +18,6 @@ fun AppNavigation(navController: NavHostController, appState: AppState){
     ){
         composable (route = "login"){ LoginScreen(navController, appState) }
         composable (route = "RegisterScreen"){ RegistroScreen(navController, appState) }
-        composable (route = "NotasScreen"){ NotasScreen( appState) }
+        composable (route = "NotasScreen"){ NotasScreen( navController, appState) }
     }
 }

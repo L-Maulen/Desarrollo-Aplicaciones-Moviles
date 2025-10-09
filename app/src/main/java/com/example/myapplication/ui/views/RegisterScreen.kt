@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,6 +30,8 @@ import com.example.myapplication.data.AppState
 fun RegistroScreen(navController: NavController, appState: AppState) {
     var email by remember { mutableStateOf(value = "") }
     var password by remember { mutableStateOf(value = "") }
+    var confirmPasswrd by remember { mutableStateOf(value = "") }
+    var error by remember { mutableStateOf(value = "") }
 
     Scaffold (
         topBar = { TopAppBar(title = { Text("Registro Usuario") }) }
@@ -35,15 +39,10 @@ fun RegistroScreen(navController: NavController, appState: AppState) {
         Column (
             modifier = Modifier
                 .fillMaxSize()
-                .padding()
+                .padding(padding)
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center
         ){
-            //var usuario by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-            var email by remember { mutableStateOf("") }
-            //var error by remember { mutableStateOf("") }
-
             OutlinedTextField(
                 value = email,
                 onValueChange = {email = it},
@@ -60,9 +59,33 @@ fun RegistroScreen(navController: NavController, appState: AppState) {
             )
             Spacer(modifier = Modifier.padding(16.dp))
 
+            if(error.isNotEmpty()){
+                Text(error, color = MaterialTheme.colorScheme.error)
+                Spacer(Modifier.height(8.dp))
+            }
+
             //faltan validaciones
             Button(
-                onClick = {navController.navigate("LoginScreen")},
+                onClick = {
+                    when{
+                        email.isBlank() || password.isBlank() || confirmPasswrd.isBlank() ->
+                            error = "Todos los campos son obligatorios"
+                        !email.contains("@") ->
+                            error = "Email no válido"
+                        password.length < 4 ->
+                            error = "La contraseña debe tener al menos 4 caracteres"
+                        password != confirmPasswrd ->
+                            error = "Las contraseñas no coinciden"
+                        //Con los datos validados llamo al registrarUsuario()
+                        //si el usuario es nuevo lo graba y retorna true
+                        !appState.registrarUsuario(email, password) ->
+                            error = "El usuario ya existe"
+                        else -> {
+                            error = ""
+                            navController.navigate("login")
+                        }
+                    }
+               },
                 modifier = Modifier.fillMaxWidth()
             ) { Text("Registrarse")}
 

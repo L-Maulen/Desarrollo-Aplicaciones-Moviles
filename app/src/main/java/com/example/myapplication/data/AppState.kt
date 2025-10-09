@@ -108,6 +108,4 @@ class AppState(private val dataStore: DataStoreManager){
             }
         }
     }
-
-
 }

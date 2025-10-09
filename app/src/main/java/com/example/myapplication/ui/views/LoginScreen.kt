@@ -45,23 +45,22 @@ fun LoginScreen(navController: NavController, appState: AppState) {
     /*Definir scaffold*/
     Scaffold (
         //topBar = { TopAppBar(title = { Text("Login") }) }
-        topBar = { TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 titleContentColor = MaterialTheme.colorScheme.primary
             ),
-            title = { Text("Login")},
-            //añadir padding solo arriba
-            modifier = Modifier
-                .padding(top = 20.dp),
-
-        )}
-
+            title = {
+                Text("Login")
+            }
+            )
+        }
     ) {padding ->
         Column (
             modifier = Modifier
                 .fillMaxSize()
-                .padding()
+                .padding(padding)
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center
 
@@ -100,12 +99,12 @@ fun LoginScreen(navController: NavController, appState: AppState) {
                         error = ""
                         navController.navigate("NotasScreen")
                     } else {
-                        error = ""
+                        error = "Usuario y/o contraseña incorrectos."
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Login")
+                Text("Inicio de Sesión")
             }
             TextButton(onClick = {navController.navigate("RegisterScreen")}) {
                 Text("No tienes una cuenta? Registrate")

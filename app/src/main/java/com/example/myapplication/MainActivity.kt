@@ -28,11 +28,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp() {
+fun MyApp(appState: AppState) {
     val navController = rememberNavController()
 
     MaterialTheme{
-        AppNavigation(navController)
+        AppNavigation(navController, appState)
     }
 
     /*
